@@ -3,7 +3,7 @@
 import { generateInitialSketch } from '@/ai/flows/generate-initial-sketch';
 import { refineSketch } from '@/ai/flows/refine-sketch';
 import { suggestImprovementsToSketch } from '@/ai/flows/suggest-improvements-to-sketch';
-import { targetedRefineSketch } from '@/ai/flows/targeted-refine-sketch';
+import { targetedRefineSketch, TargetedRefineSketchInput } from '@/ai/flows/targeted-refine-sketch';
 import type { SketchFormValues } from '@/components/sketch-generator/sketch-schema';
 import { revalidatePath } from 'next/cache';
 
@@ -59,7 +59,7 @@ export async function refineSketchAction(
 
 export async function targetedRefineSketchAction(
   baseImageUrl: string,
-  facialArea: 'Eyes' | 'Nose' | 'Mouth',
+  facialArea: TargetedRefineSketchInput['facialArea'],
   refinementPrompt: string
 ): Promise<{ suggestions?: string[]; error?: string }> {
   try {

@@ -9,8 +9,9 @@ import { Label } from '@/components/ui/label';
 import { Loader2 } from 'lucide-react';
 import { targetedRefineSketchAction } from '@/app/actions';
 import { useToast } from '@/hooks/use-toast';
+import type { TargetedRefineSketchInput } from '@/ai/flows/targeted-refine-sketch';
 
-type FacialArea = 'Eyes' | 'Nose' | 'Mouth';
+type FacialArea = TargetedRefineSketchInput['facialArea'];
 
 interface TargetedRefinementProps {
   baseImageUrl: string | null;
@@ -18,6 +19,8 @@ interface TargetedRefinementProps {
   setIsGenerating: (isGenerating: boolean) => void;
   onRefinementComplete: (result: { suggestions?: string[]; error?: string }) => void;
 }
+
+const refinementAreas: FacialArea[] = ['Eyes', 'Eyebrows', 'Nose', 'Mouth', 'Jawline', 'Cheeks', 'Forehead', 'Hair'];
 
 export function TargetedRefinement({
   baseImageUrl,
@@ -63,18 +66,14 @@ export function TargetedRefinement({
         <CardTitle>Targeted Refinement</CardTitle>
         <CardDescription>Select a facial area and describe the changes you want to make.</CardDescription>
       </CardHeader>
-      <CardContent className="flex flex-col items-center gap-4 sm:flex-row">
-        <Button onClick={() => handleOpenDialog('Eyes')} disabled={isDisabled} variant="outline" className="w-full">
-          Refine Eyes
-        </Button>
-        <Button onClick={() => handleOpenDialog('Nose')} disabled={isDisabled} variant="outline" className="w-full">
-          Refine Nose
-        </Button>
-        <Button onClick={() => handleOpenDialog('Mouth')} disabled={isDisabled} variant="outline" className="w-full">
-          Refine Mouth
-        </Button>
+      <CardContent className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+        {refinementAreas.map(area => (
+           <Button key={area} onClick={() => handleOpenDialog(area)} disabled={isDisabled} variant="outline" className="w-full">
+            Refine {area}
+          </Button>
+        ))}
 
-        <Dialog open={!!selectedArea} onOpenChange={handleCloseDialog}>
+        <Dialog open={!!selectedArea} onOpenChange={(isOpen) => !isOpen && handleCloseDialog()}>
           <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
               <DialogTitle>Refine {selectedArea}</DialogTitle>
@@ -87,7 +86,7 @@ export function TargetedRefinement({
                 <Label htmlFor="refinement-prompt">Refinement Description</Label>
                 <Textarea
                   id="refinement-prompt"
-                  placeholder={`e.g., "Make the eyes wider and add a slight upward slant"`}
+                  placeholder={`e.g., "Make the ${selectedArea?.toLowerCase()} wider and add a slight upward slant"`}
                   value={prompt}
                   onChange={(e) => setPrompt(e.target.value)}
                   rows={4}

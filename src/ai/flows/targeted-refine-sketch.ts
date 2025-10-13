@@ -13,7 +13,7 @@ import {z} from 'genkit';
 
 const TargetedRefineSketchInputSchema = z.object({
   baseImageUrl: z.string().describe('The data URI of the base image to modify, which must include a MIME type and use Base64 encoding.'),
-  facialArea: z.enum(['Eyes', 'Nose', 'Mouth']).describe('The specific facial area to target for refinement.'),
+  facialArea: z.enum(['Eyes', 'Nose', 'Mouth', 'Jawline', 'Forehead', 'Cheeks', 'Eyebrows', 'Hair']).describe('The specific facial area to target for refinement.'),
   refinementPrompt: z.string().describe('A detailed text prompt describing the desired refinements for the selected area.'),
 });
 export type TargetedRefineSketchInput = z.infer<typeof TargetedRefineSketchInputSchema>;
