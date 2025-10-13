@@ -3,30 +3,30 @@
 @tailwind utilities;
 
 body {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Inter', sans-serif;
 }
 
 @layer base {
   :root {
-    --background: 0 0% 96.1%;
-    --foreground: 240 10% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
-    --primary: 232 47% 48%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 0 0% 96.1%;
-    --secondary-foreground: 0 0% 9%;
-    --muted: 0 0% 96.1%;
-    --muted-foreground: 0 0% 45.1%;
-    --accent: 187 100% 42%;
-    --accent-foreground: 0 0% 100%;
+    --background: 22 18% 96%; /* Light earthy gray */
+    --foreground: 20 10% 25%; /* Dark brown/gray */
+    --card: 30 15% 98%;
+    --card-foreground: 20 10% 25%;
+    --popover: 30 15% 98%;
+    --popover-foreground: 20 10% 25%;
+    --primary: 80 25% 30%; /* Forest Green */
+    --primary-foreground: 80 25% 98%;
+    --secondary: 30 10% 90%; /* Light earthy tone */
+    --secondary-foreground: 20 10% 25%;
+    --muted: 30 10% 90%;
+    --muted-foreground: 20 10% 45%;
+    --accent: 40 50% 55%; /* Earthy brown accent */
+    --accent-foreground: 20 10% 98%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 89.8%;
-    --input: 0 0% 89.8%;
-    --ring: 232 47% 48%;
+    --border: 30 10% 85%;
+    --input: 30 10% 88%;
+    --ring: 80 25% 30%;
     --chart-1: 12 76% 61%;
     --chart-2: 173 58% 39%;
     --chart-3: 197 37% 24%;
@@ -43,25 +43,25 @@ body {
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
   .dark {
-    --background: 222 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --card: 222 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 232 47% 58%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 217 33% 17%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217 33% 17%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 187 100% 52%;
-    --accent-foreground: 210 40% 9.8%;
+    --background: 20 10% 12%; /* Dark earth brown */
+    --foreground: 30 10% 85%;
+    --card: 20 10% 15%;
+    --card-foreground: 30 10% 85%;
+    --popover: 20 10% 10%;
+    --popover-foreground: 30 10% 85%;
+    --primary: 80 35% 55%; /* Lighter Forest Green for dark mode */
+    --primary-foreground: 80 25% 10%;
+    --secondary: 20 10% 20%;
+    --secondary-foreground: 30 10% 85%;
+    --muted: 20 10% 20%;
+    --muted-foreground: 30 10% 65%;
+    --accent: 40 40% 50%; /* Lighter earthy brown accent */
+    --accent-foreground: 20 10% 98%;
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217 33% 17%;
-    --input: 217 33% 17%;
-    --ring: 232 47% 58%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 20 10% 25%;
+    --input: 20 10% 25%;
+    --ring: 80 35% 55%;
     --chart-1: 220 70% 50%;
     --chart-2: 160 60% 45%;
     --chart-3: 30 80% 55%;

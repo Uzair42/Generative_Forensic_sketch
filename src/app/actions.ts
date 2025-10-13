@@ -1,11 +1,11 @@
 'use server';
 
-import { generateSketchFromDescription } from '@/ai/flows/generate-sketch-from-description';
+import { generateInitialSketch } from '@/ai/flows/generate-initial-sketch';
+import { refineSketch } from '@/ai/flows/refine-sketch';
 import { suggestImprovementsToSketch } from '@/ai/flows/suggest-improvements-to-sketch';
 import type { SketchFormValues } from '@/components/sketch-generator/sketch-schema';
 import { revalidatePath } from 'next/cache';
 
-// Helper to map slider values to descriptive text
 function mapValueToDescription(value: number, low: string, mid: string, high: string): string {
   if (value <= 3) return low;
   if (value >= 8) return high;
@@ -28,20 +28,31 @@ function constructPrompt(data: SketchFormValues): string {
   return parts.join(' ');
 }
 
-
-export async function generateSketchAction(
-  data: SketchFormValues
-): Promise<{ sketchDataUri?: string; prompt?: string; error?: string }> {
+export async function generateInitialSketchAction(
+  eyewitnessDescription: string
+): Promise<{ suggestions?: string[]; error?: string }> {
   try {
-    const prompt = constructPrompt(data);
-    const result = await generateSketchFromDescription({ description: prompt });
-    
+    const result = await generateInitialSketch({ eyewitnessDescription });
     revalidatePath('/sketch-generator');
-    
-    return { sketchDataUri: result.sketchDataUri, prompt: prompt };
+    return { suggestions: result.sketches };
   } catch (error) {
-    console.error('Error generating sketch:', error);
-    return { error: 'Failed to generate sketch. Please try again.' };
+    console.error('Error generating initial sketch:', error);
+    return { error: 'Failed to generate initial sketch. Please try again.' };
+  }
+}
+
+export async function refineSketchAction(
+  baseImageUrl: string,
+  data: SketchFormValues
+): Promise<{ suggestions?: string[]; error?: string }> {
+  try {
+    const facialFeaturePrompt = constructPrompt(data);
+    const result = await refineSketch({ baseImageUrl, facialFeaturePrompt });
+    revalidatePath('/sketch-generator');
+    return { suggestions: result.sketches };
+  } catch (error) {
+    console.error('Error refining sketch:', error);
+    return { error: 'Failed to refine sketch. Please try again.' };
   }
 }
 
