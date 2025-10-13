@@ -40,7 +40,7 @@ const refineSketchFlow = ai.defineFlow(
         model: 'googleai/gemini-2.5-flash-image-preview',
         prompt: [
           {media: {url: input.baseImageUrl}},
-          {text: `Refine this forensic sketch based on the following instructions: ${input.facialFeaturePrompt}. Make subtle but distinct variations.`},
+          {text: `Refine this single forensic sketch based on the following instructions: ${input.facialFeaturePrompt}. Introduce subtle but distinct variations in the single person depicted.`},
         ],
         config: {
           responseModalities: ['TEXT', 'IMAGE'],

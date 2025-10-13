@@ -34,7 +34,7 @@ const generateInitialSketchFlow = ai.defineFlow(
     outputSchema: GenerateInitialSketchOutputSchema,
   },
   async input => {
-    const fullPrompt = `Generate a hyper-realistic, photorealistic, black and white forensic sketch based on the following eyewitness description. Create 5 distinct but related variations. The subject should have a neutral expression. The background should be a neutral gray, standard for police sketches. Description: ${input.eyewitnessDescription}`;
+    const fullPrompt = `Generate a hyper-realistic, photorealistic, black and white forensic sketch of a single person based on the following eyewitness description. The subject should have a neutral expression. The background should be a neutral gray, standard for police sketches. Description: ${input.eyewitnessDescription}`;
 
     const generationPromises = Array(5).fill(0).map(() => 
       ai.generate({
