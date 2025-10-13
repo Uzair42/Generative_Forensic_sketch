@@ -1,3 +1,10 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "sketch-placeholder",
+      "description": "A placeholder image for a forensic sketch.",
+      "imageUrl": "https://picsum.photos/seed/sketchai-placeholder/800/800",
+      "imageHint": "line drawing"
+    }
+  ]
 }
