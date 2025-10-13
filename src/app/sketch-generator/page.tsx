@@ -13,6 +13,7 @@ import type { SketchFormValues } from '@/components/sketch-generator/sketch-sche
 import { Skeleton } from '@/components/ui/skeleton';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { TextInputGenerator } from '@/components/sketch-generator/text-input-generator';
+import { TargetedRefinement } from '@/components/sketch-generator/targeted-refinement';
 
 type Mode = 'text-to-sketch' | 'refine-sketch';
 
@@ -31,12 +32,8 @@ export default function SketchGeneratorPage() {
       router.push('/signin');
     }
   }, [user, authLoading, router]);
-
-  const handleGenerateInitialSketch = async (description: string) => {
-    setIsGenerating(true);
-    setAiSuggestions([]);
-    setCurrentBaseImage(null);
-    const result = await generateInitialSketchAction(description);
+  
+  const handleGenerationResult = (result: { suggestions?: string[]; error?: string }, successTitle: string, successDescription: string) => {
     setIsGenerating(false);
 
     if (result.error) {
@@ -48,11 +45,22 @@ export default function SketchGeneratorPage() {
     } else if (result.suggestions && result.suggestions.length > 0) {
       setAiSuggestions(result.suggestions);
       setCurrentBaseImage(result.suggestions[0]);
-      setMode('refine-sketch');
       toast({
-        title: 'Initial Sketches Generated!',
-        description: 'Select a sketch to start refining.',
+        title: successTitle,
+        description: successDescription,
       });
+    }
+  };
+
+
+  const handleGenerateInitialSketch = async (description: string) => {
+    setIsGenerating(true);
+    setAiSuggestions([]);
+    setCurrentBaseImage(null);
+    const result = await generateInitialSketchAction(description);
+    handleGenerationResult(result, 'Initial Sketches Generated!', 'Select a sketch to start refining.');
+    if (!result.error) {
+      setMode('refine-sketch');
     }
   };
 
@@ -68,23 +76,12 @@ export default function SketchGeneratorPage() {
     setIsGenerating(true);
     setAiSuggestions([]);
     const result = await refineSketchAction(currentBaseImage, data);
-    setIsGenerating(false);
-
-    if (result.error) {
-      toast({
-        variant: 'destructive',
-        title: 'Refinement Failed',
-        description: result.error,
-      });
-    } else if (result.suggestions && result.suggestions.length > 0) {
-      setAiSuggestions(result.suggestions);
-      setCurrentBaseImage(result.suggestions[0]);
-      toast({
-        title: 'Sketch Refined!',
-        description: 'The sketch has been updated with your changes.',
-      });
-    }
+    handleGenerationResult(result, 'Sketch Refined!', 'The sketch has been updated with your changes.');
   };
+
+  const handleTargetedRefine = (result: { suggestions?: string[]; error?: string }) => {
+    handleGenerationResult(result, 'Targeted Refinement Complete!', 'The sketch has been updated with your focused changes.');
+  }
 
   if (authLoading || !user) {
     return (
@@ -112,7 +109,7 @@ export default function SketchGeneratorPage() {
             <Tabs value={mode} onValueChange={(value) => setMode(value as Mode)} className="w-full">
               <TabsList className="grid w-full grid-cols-2">
                 <TabsTrigger value="text-to-sketch">Text to Initial Sketch</TabsTrigger>
-                <TabsTrigger value="refine-sketch">Refine Sketch</TabsTrigger>
+                <TabsTrigger value="refine-sketch">Refine with Sliders</TabsTrigger>
               </TabsList>
               <TabsContent value="text-to-sketch" className="mt-4">
                 <TextInputGenerator
@@ -131,12 +128,18 @@ export default function SketchGeneratorPage() {
           </div>
         </div>
         <div className="lg:col-span-2">
-          <div className="sticky top-24">
+          <div className="sticky top-24 space-y-8">
             <SketchDisplay
               currentBaseImage={currentBaseImage}
               aiSuggestions={aiSuggestions}
               isGenerating={isGenerating}
               onSelectSuggestion={setCurrentBaseImage}
+            />
+            <TargetedRefinement 
+              baseImageUrl={currentBaseImage}
+              isGenerating={isGenerating}
+              setIsGenerating={setIsGenerating}
+              onRefinementComplete={handleTargetedRefine}
             />
           </div>
         </div>

@@ -12,26 +12,36 @@ interface SliderControlProps {
   min?: number;
   max?: number;
   step?: number;
+  onValueChange?: (value: number[]) => void;
 }
 
-export function SliderControl({ control, name, label, min = 1, max = 10, step = 1 }: SliderControlProps) {
+export function SliderControl({ 
+  control, 
+  name, 
+  label, 
+  min = 1, 
+  max = 10, 
+  step = 1,
+  onValueChange 
+}: SliderControlProps) {
   return (
     <FormField
       control={control}
       name={name}
-      render={({ field }) => (
+      render={({ field: { value, ...field } }) => (
         <FormItem>
           <div className="flex items-center justify-between">
             <FormLabel>{label}</FormLabel>
-            <span className="text-sm font-medium text-muted-foreground">{field.value}</span>
+            <span className="text-sm font-medium text-muted-foreground">{Array.isArray(value) ? value[0] : value}</span>
           </div>
           <FormControl>
             <Slider
               min={min}
               max={max}
               step={step}
-              value={field.value}
-              onValueChange={field.onChange}
+              value={Array.isArray(value) ? value : [value]}
+              onValueChange={onValueChange}
+              {...field}
             />
           </FormControl>
           <FormMessage />

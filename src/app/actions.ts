@@ -3,6 +3,7 @@
 import { generateInitialSketch } from '@/ai/flows/generate-initial-sketch';
 import { refineSketch } from '@/ai/flows/refine-sketch';
 import { suggestImprovementsToSketch } from '@/ai/flows/suggest-improvements-to-sketch';
+import { targetedRefineSketch } from '@/ai/flows/targeted-refine-sketch';
 import type { SketchFormValues } from '@/components/sketch-generator/sketch-schema';
 import { revalidatePath } from 'next/cache';
 
@@ -55,6 +56,26 @@ export async function refineSketchAction(
     return { error: 'Failed to refine sketch. Please try again.' };
   }
 }
+
+export async function targetedRefineSketchAction(
+  baseImageUrl: string,
+  facialArea: 'Eyes' | 'Nose' | 'Mouth',
+  refinementPrompt: string
+): Promise<{ suggestions?: string[]; error?: string }> {
+  try {
+    const result = await targetedRefineSketch({
+      baseImageUrl,
+      facialArea,
+      refinementPrompt,
+    });
+    revalidatePath('/sketch-generator');
+    return { suggestions: result.sketches };
+  } catch (error) {
+    console.error('Error during targeted refinement:', error);
+    return { error: 'Failed to apply targeted refinement. Please try again.' };
+  }
+}
+
 
 export async function getSuggestionsAction(
   prompt: string,
