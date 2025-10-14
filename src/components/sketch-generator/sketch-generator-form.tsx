@@ -40,10 +40,6 @@ export function SketchGeneratorForm({ onSubmit, isGenerating, disabled }: Sketch
     },
   });
   
-  const handleSliderChange = (name: keyof SketchFormValues, value: number[]) => {
-    form.setValue(name, value[0]);
-  };
-
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -83,7 +79,7 @@ export function SketchGeneratorForm({ onSubmit, isGenerating, disabled }: Sketch
                     </FormItem>
                   )}
                 />
-                <SliderControl control={form.control} name="age" label="Approximate Age" min={18} max={80} onValueChange={(val) => handleSliderChange('age', val)}/>
+                <SliderControl control={form.control} name="age" label="Approximate Age" min={18} max={80} />
                 <FormField
                   control={form.control}
                   name="ethnicity"
@@ -110,21 +106,21 @@ export function SketchGeneratorForm({ onSubmit, isGenerating, disabled }: Sketch
               <AccordionTrigger className="text-lg font-semibold">Facial Features</AccordionTrigger>
               <AccordionContent className="space-y-6 pt-4">
                 <h4 className="font-medium">Eyes</h4>
-                <SliderControl control={form.control} name="eyePosition" label="Position (Narrow/Wide)" onValueChange={(val) => handleSliderChange('eyePosition', val)} />
-                <SliderControl control={form.control} name="eyeSlant" label="Slant (Downward/Upward)" onValueChange={(val) => handleSliderChange('eyeSlant', val)} />
-                <SliderControl control={form.control} name="eyeSize" label="Size (Small/Large)" onValueChange={(val) => handleSliderChange('eyeSize', val)} />
+                <SliderControl control={form.control} name="eyePosition" label="Position (Narrow/Wide)" />
+                <SliderControl control={form.control} name="eyeSlant" label="Slant (Downward/Upward)" />
+                <SliderControl control={form.control} name="eyeSize" label="Size (Small/Large)" />
                 
                 <h4 className="font-medium pt-4">Nose</h4>
-                <SliderControl control={form.control} name="noseWidth" label="Width (Thin/Wide)" onValueChange={(val) => handleSliderChange('noseWidth', val)} />
-                <SliderControl control={form.control} name="noseBridge" label="Bridge (Straight/Hooked)" onValueChange={(val) => handleSliderChange('noseBridge', val)} />
+                <SliderControl control={form.control} name="noseWidth" label="Width (Thin/Wide)" />
+                <SliderControl control={form.control} name="noseBridge" label="Bridge (Straight/Hooked)" />
 
                 <h4 className="font-medium pt-4">Lips</h4>
-                <SliderControl control={form.control} name="lipThickness" label="Thickness (Thin/Full)" onValueChange={(val) => handleSliderChange('lipThickness', val)} />
-                <SliderControl control={form.control} name="lipWidth" label="Width (Narrow/Wide)" onValueChange={(val) => handleSliderChange('lipWidth', val)} />
+                <SliderControl control={form.control} name="lipThickness" label="Thickness (Thin/Full)" />
+                <SliderControl control={form.control} name="lipWidth" label="Width (Narrow/Wide)" />
 
                 <h4 className="font-medium pt-4">Jawline</h4>
-                <SliderControl control={form.control} name="jawShape" label="Shape (Square/Round)" onValueChange={(val) => handleSliderChange('jawShape', val)} />
-                <SliderControl control={form.control} name="jawProminence" label="Prominence (Weak/Strong)" onValueChange={(val) => handleSliderChange('jawProminence', val)} />
+                <SliderControl control={form.control} name="jawShape" label="Shape (Square/Round)" />
+                <SliderControl control={form.control} name="jawProminence" label="Prominence (Weak/Strong)" />
               </AccordionContent>
             </AccordionItem>
 
@@ -132,8 +128,8 @@ export function SketchGeneratorForm({ onSubmit, isGenerating, disabled }: Sketch
             <AccordionItem value="item-3">
               <AccordionTrigger className="text-lg font-semibold">Other Details</AccordionTrigger>
               <AccordionContent className="space-y-6 pt-4">
-                <SliderControl control={form.control} name="wrinkles" label="Wrinkles / Age Detail" onValueChange={(val) => handleSliderChange('wrinkles', val)} />
-                <SliderControl control={form.control} name="facialHair" label="Facial Hair" onValueChange={(val) => handleSliderChange('facialHair', val)} />
+                <SliderControl control={form.control} name="wrinkles" label="Wrinkles / Age Detail" />
+                <SliderControl control={form.control} name="facialHair" label="Facial Hair" />
               </AccordionContent>
             </AccordionItem>
           </Accordion>

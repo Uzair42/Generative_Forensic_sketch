@@ -15,6 +15,7 @@ import {
 } from './ui/dropdown-menu';
 import { User as UserIcon, LogOut } from 'lucide-react';
 import { Logo } from './logo';
+import { ThemeSwitcher } from './theme-switcher';
 
 export default function Header() {
   const { user, signOut, loading } = useAuth();
@@ -45,6 +46,7 @@ export default function Header() {
         </div>
 
         <div className="flex items-center gap-4">
+          <ThemeSwitcher />
           {loading ? (
              <div className="h-10 w-24 animate-pulse rounded-md bg-muted" />
           ) : user ? (
