@@ -28,25 +28,34 @@ export function SliderControl({
     <FormField
       control={control}
       name={name}
-      render={({ field: { value, ...field } }) => (
-        <FormItem>
-          <div className="flex items-center justify-between">
-            <FormLabel>{label}</FormLabel>
-            <span className="text-sm font-medium text-muted-foreground">{Array.isArray(value) ? value[0] : value}</span>
-          </div>
-          <FormControl>
-            <Slider
-              min={min}
-              max={max}
-              step={step}
-              value={Array.isArray(value) ? value : [value]}
-              onValueChange={onValueChange}
-              {...field}
-            />
-          </FormControl>
-          <FormMessage />
-        </FormItem>
-      )}
+      render={({ field }) => {
+        const valueAsNumber = typeof field.value === 'string' ? parseFloat(field.value) : field.value;
+        const valueAsArray = Array.isArray(valueAsNumber) ? valueAsNumber : [valueAsNumber || 0];
+
+        return (
+          <FormItem>
+            <div className="flex items-center justify-between">
+              <FormLabel>{label}</FormLabel>
+              <span className="text-sm font-medium text-muted-foreground">{valueAsArray[0]}</span>
+            </div>
+            <FormControl>
+              <Slider
+                min={min}
+                max={max}
+                step={step}
+                value={valueAsArray}
+                onValueChange={(newValue) => {
+                  field.onChange(newValue[0]);
+                  if (onValueChange) {
+                    onValueChange(newValue);
+                  }
+                }}
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        );
+      }}
     />
   );
 }
